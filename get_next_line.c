@@ -12,7 +12,7 @@
 
 #include "get_next_line.h"
 
-size_t	ft_strlen(const char *str)
+/*size_t	ft_strlen(const char *str)
 {
 	size_t	i;
 
@@ -79,7 +79,7 @@ char	*ft_strchr(const char *s, int c)
 		str++;
 	}
 	return (str);
-}
+}*/
 
 int get_next_line(int fd, char **line)
 {
