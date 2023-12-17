@@ -12,10 +12,10 @@
 
 NAME = proyecto_get_next_line
 
-SRC = get_next_line.c
+SRC = get_next_line.c */main.c*/
 OBJ = $(SRC:.c=.o)
 
-LIBFT = libft/libft.a
+/*LIBFT = libft/libft.a*/
 
 CFLAGS = -Wall -Wextra -Werror
 INCLUDES = -I libft -I.
