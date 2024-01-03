@@ -79,7 +79,7 @@ char	*ft_strchr(const char *s, int c)
 	return (str);
 }
 
-#include	<stdio.h>
+//#include	<stdio.h>
 //copia 'n' bytes de origen/src a destino/dest
 void	*ft_memcpy(void *dest, const void *src, size_t length)
 {
