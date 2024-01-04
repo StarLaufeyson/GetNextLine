@@ -27,4 +27,4 @@ char    ft_strchr(const char *s, int c);
 char    ft_substr(const char *s, unsigned int start, size_t length);
 char    get_next_line(int fd);
 
-# endif
+#endif
