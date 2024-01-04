@@ -31,7 +31,7 @@ char    *read_buffer(int fd, char *storage)
     buffer[0] = '\0';
     while (read_value > 0 && !ft_strchr(buffer, '\n'))
     {
-        read = read(fd, buffer, BUFFER_SIZE);
+        read_value = read(fd, buffer, BUFFER_SIZE);
         if (read_value > 0)
         {
             buffer[read_value] = '\0';
