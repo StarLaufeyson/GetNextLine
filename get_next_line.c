@@ -19,7 +19,7 @@ de leer una línea completa del descriptor de archivo dado (fd). La línea leíd
 line, que es un puntero a una cadena de caracteres (char **line). Además, maneja la gestión de memoria adecuada 
 y verifica condiciones de error durante la ejecución*/
 
-int get_next_line(int fd, char **line)
+/*int get_next_line(int fd, char **line)
 {
     static char *buffer;
     char        *temp;
@@ -42,11 +42,37 @@ int get_next_line(int fd, char **line)
     buffer = ft_strdup(buffer + ft_strlen(*line) + 1);
     free (temp);
     return (1);
+}*/
+
+char	*get_next_line(int fd)
+{
+	static char	*buffer;
+	char		*temp;
+	int			bytes_read;
+
+	if (fd < 0 || BUFFER_SIZE <= 0)
+		return (NULL);
+	if (!buffer)
+		buffer = ft_strdup("");
+	bytes_read = read_line(fd, &buffer);
+	if (bytes_read < 0)
+		return (NULL);
+	if (bytes_read == 0 && ft_strlen(buffer) == 0)
+	{
+		free(buffer);
+		buffer = NULL;
+		return (NULL);
+	}
+	temp = buffer;
+	buffer = ft_strdup(buffer + ft_strlen(get_line(&temp)) + 1);
+	free(temp);
+	return (get_line(&temp));
 }
 
-BUFFER_SIZE hasta que se encuentra un salto de línea o no hay más bytes que leer. Los bytes leídos se 
+/*BUFFER_SIZE hasta que se encuentra un salto de línea o no hay más bytes que leer. Los bytes leídos se 
 agregan al final del buffer, y la función continúa leyendo hasta que se completa una línea. La función 
-devuelve la cantidad de bytes leídos en la última iteración.
+devuelve la cantidad de bytes leídos en la última iteración.*/
+
 int read_line(int fd, char **buffer)
 {
     char    *temp;
@@ -68,6 +94,7 @@ int read_line(int fd, char **buffer)
 principal. La función utiliza un bucle para encontrar la longitud de la línea, buscando un 
 salto de línea ('\n') o el final de la cadena ('\0'). Luego, utiliza una función como ft_substr 
 para extraer la línea del buffer original y la asigna a la variable line. Finalmente, devuelve la línea extraída*/
+
 char    *get_line(char **buffer)
 {
     char    *line;
