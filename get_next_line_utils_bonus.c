@@ -22,25 +22,25 @@ size_t	ft_strlen(const char *str)
 	return (i);
 }
 
-char	*ft_strdup(const char *s)
+char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
-	size_t	length;
-	size_t	i;
-	char	*duplicate;
-	
-	length = ft_strlen(s);
-	duplicate = (char *)malloc((length + 1) * sizeof(char));
-	if (duplicate != NULL)
-	{
-		i = 0;
-		while (s[i] != '\0')
-		{
-			duplicate[i] = s[i];
-			i++;
-		}
-		duplicate[i] = '\0';
-	}
-	return (duplicate);
+	size_t	s_len;
+	size_t	sub_len;
+	char	*substr;
+
+	if (!s)
+		return (NULL);
+	s_len = ft_strlen(s);
+	sub_len = len;
+	if (start >= s_len)
+		return (ft_strdup(""));
+	if (sub_len > (s_len - start))
+		sub_len = s_len - start;
+	substr = (char *)malloc((sub_len + 1) * sizeof(char));
+	if (substr == NULL)
+		return (NULL);
+	ft_strlcpy(substr, s + start, sub_len + 1);
+	return (substr);
 }
 
 char	*ft_strjoin(char const *s1, char const *s2)
