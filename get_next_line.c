@@ -73,22 +73,26 @@ char	*get_next_line(int fd)
 agregan al final del buffer, y la función continúa leyendo hasta que se completa una línea. La función 
 devuelve la cantidad de bytes leídos en la última iteración.*/
 
-int read_line(int fd, char **buffer)
+int	read_line(int fd, char **buffer)
 {
-    char    *temp;
-    char    read_buffer[BUFFER_SIZE];
-    int     bytes_read;
+	char	*temp;
+	char	read_buffer[BUFFER_SIZE + 1];
+	int		bytes_read;
 
-    while ((bytes_read = read(fd, read_buffer, BUFFER_SIZE)) > 0)
-    {
-        read_buffer[bytes_read] = '\0';
-        temp = *buffer;
-        *buffer = ft_strjoin(*buffer, read_buffer);
-        free(temp);
-        if (ft_strchr(*buffer, '\n'))
-            break;
-    }
-    return (bytes_read);
+	while (1)
+	{
+		bytes_read = read(fd, read_buffer, BUFFER_SIZE);
+		if (bytes_read > 0)
+		{
+			read_buffer[bytes_read] = '\0';
+			temp = *buffer;
+			*buffer = ft_strjoin(*buffer, read_buffer);
+			free(temp);
+		}
+		if (ft_strchr(*buffer, '\n') || bytes_read == 0)
+			break ;
+	}
+	return (bytes_read);
 }
 /*Esta función get_line toma un puntero a un puntero (char **buffer) que apunta al buffer 
 principal. La función utiliza un bucle para encontrar la longitud de la línea, buscando un 
@@ -98,11 +102,11 @@ para extraer la línea del buffer original y la asigna a la variable line. Final
 char    *get_line(char **buffer)
 {
     char    *line;
-    int     length;
+    int     len;
 
-    lenght = 0;
-    while ((*buffer)[length] != '\n' && (*buffer)[length] '\0')
-        length++;
-    line = ft_substr(*buffer, 0, length);
+    len = 0;
+    while ((*buffer)[len] != '\n' && (*buffer)[len] '\0')
+        len++;
+    line = ft_substr(*buffer, 0, len);
     return (line);
 }
