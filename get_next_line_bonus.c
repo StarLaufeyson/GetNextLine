@@ -81,20 +81,20 @@ char    *new_line(char *storage)
     return (line);
 }
 
-char    *get_next_line(int fd)
+char	*get_next_line(int fd)
 {
-    static char *storage;
-    char        *line;
+	static char	*storage[257];
+	char		*line;
 
-    if (fd < 0)
-        return (NULL);
-    if (!storage)
-        storage = read_buffer(fd, storage);
-    if (!storage)
-        return (NULL);
-    line = new_line(storage);
-    if (!line)
-        return (ft_free(&storage));
-    storage = clean_storage(storage);
-    return (line);
+	if (fd < 0 || BUFFER_SIZE <= 0 || fd > 256)
+		return (NULL);
+	if (!storage[fd])
+		storage[fd] = read_buffer(fd, storage[fd]);
+	if (!storage[fd])
+		return (NULL);
+	line = new_line(storage[fd]);
+	if (!line)
+		return (ft_free(&storage[fd]));
+	storage[fd] = clean_storage(storage[fd]);
+	return (line);
 }
