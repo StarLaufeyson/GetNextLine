@@ -95,6 +95,25 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	substr = (char *)malloc((sub_len + 1) * sizeof(char));
 	if (substr == NULL)
 		return (NULL);
-	ft_strdup(substr, s + start, sub_len + 1);
+	ft_strlcpy(substr, s + start, sub_len + 1);
 	return (substr);
+}
+
+size_t	ft_strlcpy(char *dest, const char *src, size_t dest_size)
+{
+	size_t	i;
+
+	i = 0;
+	while (*src && (i + 1 < dest_size))
+	{
+		*dest++ = *src++;
+		i++;
+	}
+	if (dest_size > 0)
+	{
+		*dest = '\0';
+	}
+	while (*src++)
+	i++;
+	return (i);
 }
