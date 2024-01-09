@@ -32,7 +32,7 @@ char	*ft_strdup(const char *s)
 	
 	length = ft_strlen(s);
 	duplicate = (char *)malloc((length + 1) * sizeof(char));
-	if (duplicate != NULL)
+	if (duplicate == NULL)
 		return (NULL); //Memory allocation failure
 	{
 		i = 0;
@@ -84,8 +84,8 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	size_t	sub_len;
 	char	*substr;
 
-	if (!s)
-		return (NULL);
+	//if (!s)
+	//	return (NULL);
 	s_len = ft_strlen(s);
 	sub_len = len;
 	if (start >= s_len)
