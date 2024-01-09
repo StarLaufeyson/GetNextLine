@@ -47,24 +47,20 @@ char	*ft_strdup(const char *s)
 
 char	*ft_strjoin(char const *s1, char const *s2)
 {
-	size_t	len1;
-	size_t	len2;
-	size_t	total_len;
-	char	*result;
+	char	*ptr;
+	size_t	size;
 
-	if (s1 == NULL || s2 == NULL)
+	size = ft_strlen(s1) + ft_strlen(s2);
+	ptr = malloc(sizeof(char) * size + 1);
+	if (!ptr)
 		return (NULL);
-	len1 = ft_strlen(s1);
-	len2 = ft_strlen(s2);
-	total_len = len1 + len2;
-	result = (char *)malloc((total_len + 1) * sizeof(char));
-	if (result == NULL)
-		return (NULL);
-	ft_memcpy(result, s1, len1);
-	ft_memcpy(result + len1, s2, len2 + 1);
-	return (result);
+	while (*s1)
+		*ptr++ = *s1++;
+	while (*s2)
+		*ptr++ = *s2++;
+	*ptr = '\0';
+	return (ptr - size);
 }
-
 char	*ft_strchr(const char *s, int c)
 {
 	char	*str;
