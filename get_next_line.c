@@ -12,41 +12,14 @@
 
 #include "get_next_line.h"
 
-//char	*get_next_line(int fd)
-
 /*Esta función get_next_line utiliza un buffer estático para almacenar los datos leídos y se encarga 
 de leer una línea completa del descriptor de archivo dado (fd). La línea leída se almacena en la variable 
 line, que es un puntero a una cadena de caracteres (char **line). Además, maneja la gestión de memoria adecuada 
 y verifica condiciones de error durante la ejecución*/
 
-/*int get_next_line(int fd, char **line)
-{
-    static char *buffer;
-    char        *temp;
-    int         bytes_read;
-    if (fd < 0 || !line || BUFFER_SIZE <= 0)
-        return (-1);
-    if (!buffer)
-        buffer = ft_strdup("");
-    bytes_read = read_line(fd, &buffer);
-    if (bytes_read < 0)
-        return (-1);
-    if (bytes_read == 0 && ft_strlen(buffer) == 0)
-    {
-        free(buffer);
-        buffer = NULL;
-        return (0);
-    }
-    *line = get_line(&buffer);
-    temp = buffer;
-    buffer = ft_strdup(buffer + ft_strlen(*line) + 1);
-    free (temp);
-    return (1);
-}*/
-
 char	*get_next_line(int fd)
 {
-	static char	*buffer;
+	//static char	*buffer;
 	char		*temp;
 	int			bytes_read;
 
@@ -88,6 +61,8 @@ int	read_line(int fd, char **buffer)
 			temp = *buffer;
 			*buffer = ft_strjoin(*buffer, read_buffer);
 			free(temp);
+			if (!buffer)
+				return (-1); //memory allocation failure
 		}
 		if (ft_strchr(*buffer, '\n') || bytes_read == 0)
 			break ;
@@ -105,8 +80,10 @@ char    *get_line(char **buffer)
     int     len;
 
     len = 0;
-    while ((*buffer)[len] != '\n' && (*buffer)[len] '\0')
+    while ((*buffer)[len] != '\n' && (*buffer)[len] != '\0')
         len++;
     line = ft_substr(*buffer, 0, len);
+    if (!line)
+	    return (NULL); //Memory allocation failure
     return (line);
 }
