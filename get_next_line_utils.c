@@ -33,6 +33,7 @@ char	*ft_strdup(const char *s)
 	length = ft_strlen(s);
 	duplicate = (char *)malloc((length + 1) * sizeof(char));
 	if (duplicate != NULL)
+		return (NULL); //Memory allocation failure
 	{
 		i = 0;
 		while (s[i] != '\0')
@@ -96,22 +97,4 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 		return (NULL);
 	ft_strlcpy(substr, s + start, sub_len + 1);
 	return (substr);
-}
-//#include	<stdio.h>
-//copia 'n' bytes de origen/src a destino/dest
-void	*ft_memcpy(void *dest, const void *src, size_t length)
-{
-	char	*d;
-	const char	*s;
-	size_t	i;
-
-	d = dest;
-	s = src;
-	i = 0;
-	while (i < length)
-	{
-		d[i] = s[i];
-		i++;
-	}
-	return (dest);
 }
