@@ -19,12 +19,9 @@ size_t	ft_strlen(const char *str)
 
 	i = 0;
 	while (str[i] != '\0')
-	{
 		i++;
-	}
 	return (i);
 }
-
 //Duplica una cadena de caracteres, asignando memoria para una nueva cadena y copiando el nuevo 
 //contenido de la cadena original en la nueva memoria asignada
 char	*ft_strdup(const char *s)
@@ -32,11 +29,11 @@ char	*ft_strdup(const char *s)
 	size_t	length;
 	size_t	i;
 	char	*duplicate;
-	
+
 	length = ft_strlen(s);
 	duplicate = (char *)malloc((length + 1) * sizeof(char));
 	if (duplicate == NULL)
-		return (NULL); //Memory allocation failure
+		return (NULL);
 	{
 		i = 0;
 		while (s[i] != '\0')
@@ -48,7 +45,6 @@ char	*ft_strdup(const char *s)
 	}
 	return (duplicate);
 }
-
 //concatena 2 cadenas s1 y s2 y devuelve una cadena resultante (no requiere conocer tamaño máximo buffer)
 char	*ft_strjoin(char const *s1, char const *s2)
 {
@@ -73,6 +69,8 @@ char	*ft_strchr(const char *s, int c)
 	char	*str;
 
 	str = (char *)s;
+	if (!s)
+		return (NULL);
 	while (*str != (char)c)
 	{
 		if (*str == '\0')
@@ -87,41 +85,25 @@ char	*ft_strchr(const char *s, int c)
 //Extrae una subcadena de una cadena previamente dada
 char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
-	size_t	s_len;
-	size_t	sub_len;
-	char	*substr;
+	char	*ptr;
+	int		i;
+	size_t	size;
 
-	//if (!s)
-	//	return (NULL);
-	s_len = ft_strlen(s);
-	sub_len = len;
-	if (start >= s_len)
-		return (ft_strdup(""));
-	if (sub_len > (s_len - start))
-		sub_len = s_len - start;
-	substr = (char *)malloc((sub_len + 1) * sizeof(char));
-	if (substr == NULL)
-		return (NULL);
-	ft_strlcpy(substr, s + start, sub_len + 1);
-	return (substr);
-}
-
-//Copia cadenas de caracteres de src a dest y devuelve la longitud de cadena de origen 'src'
-size_t	ft_strlcpy(char *dest, const char *src, size_t dest_size)
-{
-	size_t	i;
-
+	size = len;
 	i = 0;
-	while (*src && (i + 1 < dest_size))
+	if (ft_strlen(s) < start || !*s)
 	{
-		*dest++ = *src++;
+		return (NULL);
+	}
+	ptr = malloc(sizeof(char) * (len + 1));
+	ptr[len] = '\0';
+	if (!ptr)
+		return (NULL);
+	while (len-- && s[start])
+	{
+		ptr[i] = s[start];
+		start++;
 		i++;
 	}
-	if (dest_size > 0)
-	{
-		*dest = '\0';
-	}
-	while (*src++)
-	i++;
-	return (i);
+	return (ptr);
 }
