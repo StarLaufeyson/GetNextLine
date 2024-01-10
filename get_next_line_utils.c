@@ -12,6 +12,7 @@
 
 #include "get_next_line.h"
 
+//Determina la longitud de una cadena de caracteres
 size_t	ft_strlen(const char *str)
 {
 	size_t	i;
@@ -24,6 +25,8 @@ size_t	ft_strlen(const char *str)
 	return (i);
 }
 
+//Duplica una cadena de caracteres, asignando memoria para una nueva cadena y copiando el nuevo 
+//contenido de la cadena original en la nueva memoria asignada
 char	*ft_strdup(const char *s)
 {
 	size_t	length;
@@ -46,6 +49,7 @@ char	*ft_strdup(const char *s)
 	return (duplicate);
 }
 
+//concatena 2 cadenas s1 y s2 y devuelve una cadena resultante (no requiere conocer tamaño máximo buffer)
 char	*ft_strjoin(char const *s1, char const *s2)
 {
 	char	*ptr;
@@ -62,6 +66,8 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	*ptr = '\0';
 	return (ptr - size);
 }
+
+//Busca última ocurrencia del caracter 'c' en la cadena 's'
 char	*ft_strchr(const char *s, int c)
 {
 	char	*str;
@@ -78,6 +84,7 @@ char	*ft_strchr(const char *s, int c)
 	return (str);
 }
 
+//Extrae una subcadena de una cadena previamente dada
 char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
 	size_t	s_len;
@@ -99,6 +106,7 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	return (substr);
 }
 
+//Copia cadenas de caracteres de src a dest y devuelve la longitud de cadena de origen 'src'
 size_t	ft_strlcpy(char *dest, const char *src, size_t dest_size)
 {
 	size_t	i;
