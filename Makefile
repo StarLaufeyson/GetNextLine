@@ -3,41 +3,38 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: eluno-la <marvin@42.fr>                    +#+  +:+       +#+         #
+#    By: marvin <marvin@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2023/11/06 17:43:20 by eluno-la          #+#    #+#              #
-#    Updated: 2023/11/06 17:48:36 by eluno-la         ###   ########.fr        #
+#    Created: 2024/01/10 11:57:10 by marvin            #+#    #+#              #
+#    Updated: 2024/01/10 11:57:10 by marvin           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = proyecto_get_next_line
 
-SRC = get_next_line.c */main.c*/
-OBJ = $(SRC:.c=.o)
+SRC = get_next_line.c get_next_line_utils.c main.c
 
-/*LIBFT = libft/libft.a*/
+OBJS = $(SRCS:%.c=o.)
+
+CC = gcc
 
 CFLAGS = -Wall -Wextra -Werror
-INCLUDES = -I libft -I.
+
+RM = rm -f
 
 all: $(NAME)
 
-$(NAME): $(OBJ) $(LIBFT)
-	gcc $(CFLAGS) $(INCLUDES) $(OBJ) -o $(NAME) -L libft -lft
+$(NAME): $(OBJ)
+	?gcc $(CFLAGS) $(INCLUDES) $(OBJ) -o $(NAME)
 
-%.o: %.c
+%.o: %.c 
 	gcc $(FLAGS) $(INCLUDES) -c $< -o $@
-
-$(LIBFT):
-	make -C libft
 
 clean:
 	rm -f $(OBJ)
-	make -C libft clean
 
 fclean: clean
 	rm -f $(NAME)
-	make -C libft fclean
 
 re: fclean all
 
