@@ -10,6 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+////Determina la longitud de una cadena de caracteres
 size_t	ft_strlen(const char *str)
 {
 	size_t	i;
@@ -22,6 +23,7 @@ size_t	ft_strlen(const char *str)
 	return (i);
 }
 
+////Extrae una subcadena de una cadena previamente dada
 char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
 	size_t	s_len;
@@ -43,6 +45,7 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	return (substr);
 }
 
+//concatena 2 cadenas s1 y s2 y devuelve una cadena resultante (no requiere conocer tamaño máximo buffer)
 char	*ft_strjoin(char const *s1, char const *s2)
 {
 	size_t	len1;
@@ -63,6 +66,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	return (result);
 }
 
+////Busca última ocurrencia del caracter 'c' en la cadena 's'
 char	*ft_strchr(const char *s, int c)
 {
 	char	*str;
