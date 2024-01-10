@@ -12,89 +12,119 @@
 
 #include    "get_next_line_bonus.h"
 
-char    *ft_free(char **str)
+//#include <stdio.h>
+#include "get_next_line_bonus.h"
+
+int	read_line(int fd, char **buffer)
 {
-    free(*str);
-    *str = NULL;
-    return (NULL);
+	char	*temp;
+	char	read_buffer[BUFFER_SIZE + 1];
+	int		bytes_read;
+
+	bytes_read = 1;
+	while (bytes_read > 0)
+	{
+		bytes_read = read(fd, read_buffer, BUFFER_SIZE);
+		if (bytes_read == -1)
+			return (bytes_read);
+		if (bytes_read > 0)
+		{
+			read_buffer[bytes_read] = '\0';
+			temp = ft_strdup(*buffer);
+			free(*buffer);
+			*buffer = ft_strjoin(temp, read_buffer);
+			free(temp);
+			if (!buffer)
+				return (-1);
+		}
+		if (ft_strchr(*buffer, '\n') || bytes_read == 0)
+			break ;
+	}
+	return (bytes_read);
 }
 
-char    *read_buffer(int fd, char *storage)
+char	*get_return(char **buffer)
 {
-    int     read_value;
-    char    *buffer;
+	char	*line;
+	int		len;
 
-    read_value = 1;
-    buffer = malloc(sizeof(char) * (BUFFER_SIZE + 1));
-    if (!buffer)
-        return (ft_free(&storage));
-    buffer[0] = '\0';
-    while (read_value > 0 && !ft_strchr(buffer, '\n'))
-    {
-        read_value = read(fd, buffer, BUFFER_SIZE);
-        if (read_value > 0)
-        {
-            buffer[read_value] = '\0';
-            storage = ft_strjoin(storage, buffer);
-        }
-    }
-    free(buffer);
-    if (read_value == -1)
-        return (ft_free(&storage));
-    return (storage);
+	len = 0;
+	while ((*buffer)[len] != '\n' && (*buffer)[len] != '\0')
+		len++;
+	if ((*buffer)[len] == '\0')
+		line = ft_substr(*buffer, 0, (len));
+	else
+		line = ft_substr(*buffer, 0, (len + 1));
+	if (!line)
+		return (NULL);
+	return (line);
 }
 
-char    *clean_storage(char *storage)
+char	*get_keeper(char **buffer)
 {
-    char    *new_storage;
-    char    *ptr;
-    int     len;
+	char	*line;
+	int		len;
 
-    ptr = ft_strchr(storage, '\n');
-    if (!ptr)
-    {
-        new_storage = NULL;
-        return (ft_free(&storage));
-    }
-    else
-        len = (ptr - storage) + 1;
-    if (!storage[len])
-        return (ft_free(&storage));
-    new_storage = ft_substr(storage, len, ft_strlen(storage) - len);
-    ft_free(&storage);
-    if (!new_storage)
-        return (NULL);
-    return (new_storage);
-}
-
-char    *new_line(char *storage)
-{
-    char    *line;
-    char    *ptr;
-    int     len;
-
-    ptr = ft_strchr(storage, '\n');
-    len = (ptr - storage) + 1;
-    line = ft_substr(storage, 0, len);
-    if (!line)
-        return (NULL);
-    return (line);
+	len = 0;
+	while ((*buffer)[len] != '\n' && (*buffer)[len] != '\0')
+		len++;
+	line = ft_substr(*buffer, (len + 1), (ft_strlen(*buffer) - len - 1));
+	if (!line)
+		return (NULL);
+	return (line);
 }
 
 char	*get_next_line(int fd)
 {
-	static char	*storage[257];
-	char		*line;
+	static char	*buffer[OPEN_MAX];
+	char		*temp;
+	char		*dest;
+	int			bytes_read;
 
-	if (fd < 0 || BUFFER_SIZE <= 0 || fd > 256)
+	if (fd < 0 || read(fd, 0, 0) < 0 || BUFFER_SIZE <= 0)
+	{
+		if (buffer[fd])
+			return (free(buffer[fd]), buffer[fd] = NULL, NULL);
 		return (NULL);
-	if (!storage[fd])
-		storage[fd] = read_buffer(fd, storage[fd]);
-	if (!storage[fd])
+	}
+	if (!buffer[fd])
+		buffer[fd] = ft_strdup("");
+	bytes_read = read_line(fd, &buffer[fd]);
+	if (bytes_read < 0)
 		return (NULL);
-	line = new_line(storage[fd]);
-	if (!line)
-		return (ft_free(&storage[fd]));
-	storage[fd] = clean_storage(storage[fd]);
-	return (line);
+	if (bytes_read == 0 && ft_strlen(buffer[fd]) == 0)
+		return (free(buffer[fd]), buffer[fd] = NULL, NULL);
+	temp = ft_strdup(buffer[fd]);
+	free(buffer[fd]);
+	dest = get_return(&temp);
+	buffer[fd] = get_keeper(&temp);
+	return (free(temp), dest);
 }
+/*
+int	main(void)
+{
+	int		fd;
+	int		i;
+	char	*line;
+
+	fd = open("archivo.txt", O_RDONLY);
+	if (fd == -1)
+	{
+		perror("Error al abrir el archivo");
+		return (1);
+	}
+	i = 10;
+	while (i--)
+	{
+		if (i == 7)
+			line = get_next_line(48);
+		else
+			line = get_next_line(fd);
+		if (line == NULL)
+			break ;
+		printf("%s", line);
+		free(line);
+	}
+	close(fd);
+	return (0);
+}*/
