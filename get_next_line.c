@@ -19,7 +19,7 @@ y verifica condiciones de error durante la ejecución*/
 
 char	*get_next_line(int fd)
 {
-	//static char	*buffer;
+	static char	*buffer;
 	char		*temp;
 	int			bytes_read;
 
